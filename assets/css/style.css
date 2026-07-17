@@ -867,7 +867,7 @@ p, .body-copy{
   cursor: pointer;
   transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), visibility .7s;
 }
-.loading-veil img{ width: 112px; height: 112px; animation: veil-breathe 1.6s ease-in-out infinite; }
+.loading-veil img{ width: 180px; height: 180px; animation: veil-breathe 1.6s ease-in-out infinite; }
 @keyframes veil-breathe{ 0%,100%{ opacity: .55; } 50%{ opacity: 1; } }
 .loading-veil-hint{
   font-family: var(--font-body);
