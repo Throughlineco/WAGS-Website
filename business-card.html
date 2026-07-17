@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Card Concept — White Ash Glass Studio</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  html, body{
+    background: #1c1712;
+    background-image:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(196,168,130,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 100%, rgba(122,140,110,0.06), transparent 55%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 96px 24px 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .page-eyebrow{
+    color: var(--sand);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .page-title{
+    font-family: var(--font-display);
+    color: var(--lemon);
+    font-size: 2rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 64px;
+    text-align: center;
+  }
+
+  .stage{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 56px;
+  }
+
+  .card-block{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .card-block .tag{
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(251,250,246,0.45);
+  }
+
+  /* Business card: 3.5 x 2 in, rendered at 200px/in for on-screen crispness */
+  .bcard{
+    width: 700px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 1px 1px rgba(20,12,6,0.5),
+      0 10px 20px -8px rgba(20,12,6,0.55),
+      0 30px 50px -20px rgba(20,12,6,0.6);
+  }
+
+  /* ---- FRONT ---- */
+  .bcard.front{
+    background-color: var(--parchment);
+    background-image:
+      repeating-linear-gradient(45deg, rgba(92,61,30,0.05) 0px, rgba(92,61,30,0.05) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(-45deg, rgba(92,61,30,0.05) 0px, rgba(92,61,30,0.05) 1px, transparent 1px, transparent 3px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .bcard.front::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 1px rgba(92,61,30,0.14);
+    pointer-events: none;
+  }
+  .bcard.front .mark{ width: 78px; height: 78px; opacity: 0.92; }
+  .bcard.front .name{
+    font-family: var(--font-script);
+    font-size: 36px;
+    color: var(--bark);
+    line-height: 1;
+    margin-top: 4px;
+  }
+  .bcard.front .root-divider{ width: 84px; height: 11px; color: var(--sienna-dim); opacity: 0.85; margin: 2px 0; }
+  .bcard.front .title{
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--copper-dim);
+  }
+
+  /* ---- BACK ---- */
+  .bcard.back{
+    background-color: var(--walnut);
+    background-image:
+      repeating-linear-gradient(45deg, rgba(251,250,246,0.045) 0px, rgba(251,250,246,0.045) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(-45deg, rgba(251,250,246,0.045) 0px, rgba(251,250,246,0.045) 1px, transparent 1px, transparent 3px);
+    padding: 32px 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .bcard.back .watermark{
+    position: absolute;
+    right: -54px;
+    bottom: -64px;
+    width: 320px;
+    height: 320px;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+  .back-brand{ display: flex; align-items: center; gap: 9px; position: relative; z-index: 1; }
+  .back-brand img{ width: 24px; height: 24px; opacity: 0.95; }
+  .back-brand span{
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sand);
+  }
+
+  .back-contact{ display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 1; }
+  .contact-list{ display: flex; flex-direction: column; gap: 11px; }
+  .contact-row .eyebrow{
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sand);
+    display: block;
+  }
+  .contact-row .value{
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    color: var(--stone);
+    margin-top: 2px;
+  }
+
+  .qr-chip{
+    width: 78px;
+    height: 78px;
+    background: var(--stone);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 14px rgba(16,10,5,0.35);
+  }
+  .qr-chip img{ width: 64px; height: 64px; display:block; }
+
+  .spec{
+    margin-top: 88px;
+    max-width: 700px;
+    width: 100%;
+  }
+  .spec h2{
+    font-family: var(--font-display);
+    color: var(--lemon);
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .spec ul{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: rgba(251,250,246,0.78);
+    line-height: 1.6;
+  }
+  .spec li::before{ content: "\2014  "; color: var(--sand); }
+  .spec b{ color: var(--parchment); font-weight: 600; }
+</style>
+</head>
+<body>
+
+  <p class="page-eyebrow">Concept · Not print-ready</p>
+  <h1 class="page-title">Business Card — Front &amp; Back</h1>
+
+  <div class="stage">
+    <div class="card-block">
+      <div class="bcard front">
+        <img class="mark" src="assets/img/logo-mark.png" alt="">
+        <span class="name">Keshav Gupta</span>
+        <svg class="root-divider" viewBox="0 0 400 34" aria-hidden="true"><path d="M0 17 C 40 2, 80 32, 120 17 S 200 2, 240 17 S 320 32, 360 17 S 400 2 400 17" stroke="currentColor" stroke-width="1"/><path d="M0 17 C 40 32, 80 2, 120 17 S 200 32, 240 17 S 320 2, 360 17 S 400 32 400 17" stroke="currentColor" stroke-width="1" opacity="0.5"/></svg>
+        <span class="title">Glass Artist</span>
+      </div>
+      <span class="tag">Front — 3.5 × 2 in</span>
+    </div>
+
+    <div class="card-block">
+      <div class="bcard back">
+        <img class="watermark" src="assets/img/logo-mark-light.png" alt="">
+        <div class="back-brand">
+          <img src="assets/img/logo-mark-light.png" alt="">
+          <span>White Ash Glass Studio</span>
+        </div>
+        <div class="back-contact">
+          <div class="contact-list">
+            <div class="contact-row">
+              <span class="eyebrow">Email</span>
+              <span class="value">whiteashglass@gmail.com</span>
+            </div>
+            <div class="contact-row">
+              <span class="eyebrow">Instagram</span>
+              <span class="value">@whiteashglassstudio</span>
+            </div>
+            <div class="contact-row">
+              <span class="eyebrow">Website</span>
+              <span class="value">whiteashglass.ca</span>
+            </div>
+          </div>
+          <div class="qr-chip">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=128x128&margin=0&color=44-26-14&data=https://whiteashglass.ca" alt="QR code linking to whiteashglass.ca">
+          </div>
+        </div>
+      </div>
+      <span class="tag">Back — 3.5 × 2 in</span>
+    </div>
+  </div>
+
+  <div class="spec">
+    <h2>Notes for print</h2>
+    <ul>
+      <li><b>Title copy:</b> using "Glass Artist" per the meeting call, since it stays flexible once WAGS has a team. The Founder page currently reads "Founder &amp; Glass Artist" &mdash; flag if you want the two to match.</li>
+      <li><b>Stock:</b> base linen cardstock, ~$2/card. The crosshatch here previews the weave; real linen stock will read the texture more strongly than any screen can.</li>
+      <li><b>Emboss candidate:</b> the tree mark on the front is the natural target for the 50&ndash;100 card embossed batch reserved for galleries and major clients.</li>
+      <li><b>QR contrast:</b> sits on a solid light chip rather than directly on the walnut ground, since dark-on-dark modules risk failing to scan on textured stock.</li>
+      <li><b>Back tone:</b> walnut instead of a second parchment panel, so front and back read as a pair rather than duplicates &mdash; same move the site's footer already makes.</li>
+    </ul>
+  </div>
+
+</body>
+</html>
