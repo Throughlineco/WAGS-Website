@@ -734,9 +734,6 @@ p, .body-copy{
 }
 .footer-social{ display:flex; align-items:center; gap: var(--space-3); }
 .footer-social a{ color: rgba(255,255,255,0.75); transition: color .3s, transform .3s; display:inline-flex; }
-.footer-qr{ display:flex; align-items:center; gap: 0.7rem; }
-.footer-qr img{ width: 54px; height: 54px; border-radius: 2px; background:#fff; padding: 4px; }
-.footer-qr span{ font-size: 0.75rem; color: rgba(255,255,255,0.6); max-width: 14ch; }
 
 /* ---- Gallery / Lightbox ---- */
 .gallery-grid{
