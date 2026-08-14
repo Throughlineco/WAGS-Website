@@ -822,6 +822,16 @@ p, .body-copy{
 }
 .form-success{ display:none; opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease-out), transform .5s var(--ease-out); }
 .form-success.show{ display:block; opacity: 1; transform: translateY(0); }
+.form-error{
+  display: none;
+  color: #A13B2E;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .35s var(--ease-out), transform .35s var(--ease-out);
+}
+.form-error.show{ display:block; opacity: 1; transform: translateY(0); }
+.contact-form button[disabled]{ opacity: 0.6; cursor: default; pointer-events: none; }
 
 /* ---- Loading veil ---- */
 .loading-veil{

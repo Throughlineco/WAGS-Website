@@ -145,12 +145,38 @@
     });
   });
 
-  // ---- Contact form — static demo submit ----
+  // ---- Contact form — real submission via Formspree ----
   var contactForm = document.querySelector('.contact-form');
   if(contactForm){
+    var contactSubmitBtn = contactForm.querySelector('button[type="submit"]');
+    var contactErrorEl = contactForm.querySelector('.form-error');
+    var contactSubmitLabel = contactSubmitBtn ? contactSubmitBtn.textContent : 'Send message';
+
     contactForm.addEventListener('submit', function(e){
       e.preventDefault();
-      revealSuccess(contactForm, document.querySelector('.form-success'));
+      if(contactErrorEl){ contactErrorEl.classList.remove('show'); }
+      if(contactSubmitBtn){
+        contactSubmitBtn.disabled = true;
+        contactSubmitBtn.textContent = 'Sending…';
+      }
+
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(response){
+        if(response.ok){
+          revealSuccess(contactForm, document.querySelector('.form-success'));
+        } else {
+          throw new Error('Form submission failed');
+        }
+      }).catch(function(){
+        if(contactSubmitBtn){
+          contactSubmitBtn.disabled = false;
+          contactSubmitBtn.textContent = contactSubmitLabel;
+        }
+        if(contactErrorEl){ contactErrorEl.classList.add('show'); }
+      });
     });
   }
 
