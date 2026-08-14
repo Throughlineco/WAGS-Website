@@ -4,97 +4,14 @@
 
   var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ---- Hero video sound (home) ----
-  // Autoplay-with-sound is blocked by every major browser — there is no
-  // way to start audio with zero interaction, on this or any site. This
-  // sets up the shared on/off logic; what actually unlocks it is the
-  // loading-veil click below (the closest real equivalent of "plays with
-  // the logo"), with the pill as a visible, explicit control afterward
-  // and a page-wide first-interaction fallback in case the veil's safety
-  // timeout fires before anyone clicks it.
-  var heroVideo = document.querySelector('.video-hero-media');
-  var soundToggle = document.querySelector('.hero-sound-toggle');
-  var soundUnlocked = false;
-  var setSoundOn = function(){};
-  if(heroVideo && soundToggle){
-    setSoundOn = function(on){
-      heroVideo.muted = !on;
-      soundToggle.setAttribute('aria-pressed', on ? 'true' : 'false');
-      soundToggle.setAttribute('aria-label', on ? 'Turn off sound' : 'Turn on sound');
-    };
-
-    soundToggle.addEventListener('click', function(){
-      if(!soundUnlocked){
-        soundUnlocked = true;
-        setSoundOn(true);
-      } else {
-        setSoundOn(heroVideo.muted);
-      }
-    });
-
-    var unlockSoundOnFirstInteraction = function(){
-      if(soundUnlocked) return;
-      soundUnlocked = true;
-      setSoundOn(true);
-    };
-    ['click', 'touchstart', 'keydown'].forEach(function(evt){
-      document.addEventListener(evt, unlockSoundOnFirstInteraction, { once: true, passive: true });
-    });
-  }
-
   // ---- Loading veil ----
-  // Every page has this veil, but the tap-to-enter gate (and the sound
-  // unlock riding on it) only makes sense where there's actually a hero
-  // video to gate. Subpages have no video and no hint text for a gate
-  // they'd have no way to know about, so they keep the original fast,
-  // ungated auto-dismiss — only the homepage waits for a click.
   var veil = document.querySelector('.loading-veil');
   if(veil){
-    var heroVideoEl = document.querySelector('.video-hero-media');
-    var dismissed = false;
-    var dismissVeil = function(){
-      if(dismissed) return;
-      dismissed = true;
-      veil.classList.add('hide');
-    };
-
-    if(heroVideoEl){
-      // Homepage: tapping the logo dismisses the veil and unlocks sound
-      // together, since a real click is the only thing browsers accept
-      // as permission for audio. Clicking never waits on video
-      // readiness — the poster frame covers that gap gracefully — so
-      // the "Tap to enter" hint only needs the minimum hold, not
-      // canplay. Gating it on canplay was measured to actively hurt
-      // slow connections: throttled to ~1.6Mbps, canplay took 7.4s,
-      // well past the old 4.5s safety net, so those visitors never
-      // saw the hint or got a chance to enable sound at all. A longer
-      // safety timeout auto-dismisses (without sound) for anyone who
-      // never clicks, so the site never gets truly stuck behind it.
-      var enterSite = function(){
-        dismissVeil();
-        soundUnlocked = true;
-        setSoundOn(true);
-      };
-      veil.addEventListener('click', enterSite);
-      veil.addEventListener('keydown', function(e){
-        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); enterSite(); }
-      });
-
-      // Runs from script execution, not window.load: the veil is a full
-      // opaque overlay, so nothing loading underneath it is ever visible
-      // — gating on full page load (fonts, nav thumbnails, etc.) only
-      // added an unpredictable, network-dependent delay with no benefit.
-      setTimeout(function(){ veil.classList.add('ready'); }, 550);
-
-      // safety fallback: never hold the site hostage behind an unclicked veil
-      setTimeout(dismissVeil, 7000);
-    } else {
-      // Every other page: same fast, ungated dismiss as before this feature existed
-      window.addEventListener('load', function(){
-        setTimeout(dismissVeil, 550);
-      });
-      setTimeout(dismissVeil, 2200);
-    }
+    window.addEventListener('load', function(){
+      setTimeout(function(){ veil.classList.add('hide'); }, 550);
+    });
+    // safety fallback
+    setTimeout(function(){ veil.classList.add('hide'); }, 2200);
   }
 
   // ---- Nav scroll state ----
